@@ -1,0 +1,16 @@
+molecule h2o {
+  O
+  H 1 0.9894093
+  H 1 0.9894093 2 100.02688
+}
+
+set basis sto-3g
+set scf_type pk
+set scf print 1
+set normal_modes_write on
+
+optimize('hf')
+
+e, wfn = freq('hf', return_wfn=True)
+
+molden(wfn, 'struc.molden', density_a=wfn.Da())
