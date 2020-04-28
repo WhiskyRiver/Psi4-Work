@@ -1,0 +1,28 @@
+memory 1 GB
+
+molecule h2o {
+  O
+  H 1 0.9894093
+  H 1 0.9894093 2 100.02688
+}
+
+#h2o.update_geometry()
+h2o.symmetrize(0.05)
+
+set optking {
+	opt_coordinates = cartesian
+	}
+dynamic_level = 3
+
+set geom_maxiter 250
+set basis sto-3g
+set scf_type pk
+set scf print 2
+set normal_modes_write on
+set hessian_write on
+
+optimize('hf')
+
+e, wfn = freq('hf', return_wfn=True)
+
+molden(wfn, 'struc.molden', density_a=wfn.Da())
